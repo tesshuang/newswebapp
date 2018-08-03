@@ -61,17 +61,26 @@ class App extends Component {
 	componentDidMount(){
 		this.handleNews();
 	}
-	handleNews(){
-		const url = `https://newsapi.org/v2/top-headlines?country=${this.state.country}&category=${this.state.category}&apiKey=7cf3459491c94dc2b1fd966f9857a390`;
-
-		fetch(url)
-			.then(resp => resp.json())
-			.then(data => {
-				this.setState({
-					news: data.articles
-				});
-			})
-			.catch((error) => console.log(error));
+	async handleNews(){
+		try{
+			const url = `https://newsapi.org/v2/top-headlines?country=${this.state.country}&category=${this.state.category}&apiKey=7cf3459491c94dc2b1fd966f9857a390`;
+			let response = await fetch(url);
+			let data = await response.json();
+			this.setState({
+				news: data.articles
+			});
+		} catch (error) {
+			console.log(error);
+		}
+		
+		// fetch(url)
+		// 	.then(resp => resp.json())
+		// 	.then(data => {
+		// 		this.setState({
+		// 			news: data.articles
+		// 		});
+		// 	})
+		// 	.catch((error) => console.log(error));
 	}
 	handleCategories(arg){
 		this.setState({
